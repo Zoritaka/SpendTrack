@@ -13,6 +13,21 @@ class ShoppingItem {
     this.category = category;
     this.price = price;
   }
+
+  // Метод для преобразования в простой объект
+  toJSON() {
+    return {
+      name: this.name,
+      description: this.description,
+      category: this.category,
+      price: this.price,
+    };
+  }
+
+  // Метод для восстановления объекта из JSON
+  static fromJSON(data: any): ShoppingItem {
+    return new ShoppingItem(data.name, data.description, data.category, data.price);
+  }
 }
 
 class ShoppingList {
@@ -22,7 +37,7 @@ class ShoppingList {
   items: ShoppingItem[];
 
   constructor(name: string) {
-    this.id = UUID.v4() as string; // Используем react-native-uuid для генерации UUID
+    this.id = UUID.v4() as string;
     this.name = name;
     this.date = new Date();
     this.items = [];
@@ -38,6 +53,25 @@ class ShoppingList {
 
   get total(): number {
     return this.items.reduce((sum, item) => sum + item.price, 0);
+  }
+
+  // Метод для сериализации ShoppingList в объект
+  toJSON() {
+    return {
+      id: this.id,
+      name: this.name,
+      date: this.date.toISOString(),
+      items: this.items.map(item => item.toJSON()),
+    };
+  }
+
+  // Метод для восстановления списка покупок из JSON
+  static fromJSON(data: any): ShoppingList {
+    const list = new ShoppingList(data.name);
+    list.id = data.id;
+    list.date = new Date(data.date);
+    list.items = data.items.map((itemData: any) => ShoppingItem.fromJSON(itemData));
+    return list;
   }
 }
 

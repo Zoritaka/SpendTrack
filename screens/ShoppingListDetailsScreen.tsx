@@ -1,8 +1,10 @@
-// screens/ShoppingListDetailsScreen.tsx
+// ShoppingListDetailsScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { ShoppingList, ShoppingItem } from '../models/ShoppingList';
+import { Alert } from 'react-native';
 import { styles } from '../styles/ShoppingListDetailsStyles'; // Импорт стилей
+
 interface ShoppingListDetailsScreenProps {
   route: {
     params: {
@@ -24,14 +26,14 @@ export const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps>
   const addItem = () => {
     if (itemName && itemPrice) {
       const newItem = new ShoppingItem(itemName, itemDescription, itemCategory, parseFloat(itemPrice));
-      shoppingList.addItem(newItem); // Добавляем новый элемент в исходный объект
+      shoppingList.addItem(newItem); // Добавляем новый элемент в список
       onUpdateList(shoppingList); // Обновляем родительский компонент с измененным списком
       resetForm();
       setModalVisible(false);
+    } else {
+      Alert.alert("Ошибка", "Укажите название и цену товара");
     }
   };
-  
-
 
   const resetForm = () => {
     setItemName('');
@@ -41,10 +43,9 @@ export const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps>
   };
 
   const removeItem = (index: number) => {
-    shoppingList.removeItem(index); // Удаляем элемент из исходного объекта
+    shoppingList.removeItem(index); // Удаляем элемент
     onUpdateList(shoppingList); // Обновляем родительский компонент с измененным списком
   };
-  
 
   return (
     <View style={styles.container}>
@@ -54,7 +55,6 @@ export const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps>
         <Button title="Add Item" onPress={() => setModalVisible(true)} />
       </View>
 
-      {/* Модальное окно для добавления нового элемента */}
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Add New Item</Text>
@@ -88,7 +88,6 @@ export const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps>
         </View>
       </Modal>
 
-      {/* Список добавленных затрат */}
       <FlatList
         data={shoppingList.items}
         keyExtractor={(item, index) => index.toString()}

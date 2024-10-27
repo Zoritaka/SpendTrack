@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, Modal, Button, StyleSheet } from 'react-native';
 import { ShoppingList } from '../models/ShoppingList';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/MainScreenStyles'; // Импорт стилей
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 export const HomeScreen = ({navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,14 +15,54 @@ export const HomeScreen = ({navigation }) => {
   const [isDeleteConfirmVisible, setDeleteConfirmVisible] = useState(false);
   const [listToDelete, setListToDelete] = useState<string | null>(null);
   
-  // Функция для добавления нового списка
-  const addNewShoppingList = () => {
+  useEffect(() => {
+    loadShoppingLists();
+  }, []);
+
+  const saveShoppingLists = async (lists: ShoppingList[]) => {
+    try {
+      const jsonValue = JSON.stringify(lists.map(list => list.toJSON()));
+      await AsyncStorage.setItem('@shopping_lists', jsonValue);
+      console.log('Shopping lists saved successfully');
+    } catch (error) {
+      console.error('Failed to save shopping lists:', error);
+    }
+  };
+
+  const loadShoppingLists = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@shopping_lists');
+      if (jsonValue) {
+        const data = JSON.parse(jsonValue);
+        const lists = data.map((listData: any) => ShoppingList.fromJSON(listData));
+        setShoppingLists(lists);
+      }
+    } catch (error) {
+      console.error('Failed to load shopping lists:', error);
+    }
+  };
+
+  const addNewShoppingList = async () => {
     if (newListName.trim()) {
       const newList = new ShoppingList(newListName);
-      setShoppingLists([...shoppingLists, newList]);
+      const updatedShoppingLists = [...shoppingLists, newList];
+      setShoppingLists(updatedShoppingLists);
       setNewListName('');
       setModalVisible(false);
+
+      try {
+        await saveShoppingLists(updatedShoppingLists);
+        Alert.alert('Успех', 'Список успешно сохранен в хранилище');
+      } catch (error) {
+        console.error('Ошибка сохранения списка', error);
+        Alert.alert('Ошибка', 'Не удалось сохранить список в хранилище');
+      }
     }
+  };
+
+  const handleAddShoppingList = (newList: ShoppingList) => {
+    const updatedLists = [...shoppingLists, newList];
+    saveShoppingLists(updatedLists);
   };
 
   const showDeleteConfirmation = (id: string) => {
@@ -36,8 +78,12 @@ export const HomeScreen = ({navigation }) => {
     setListToDelete(null);
   };
 
-  const updateShoppingList = (updatedList: ShoppingList) => {
-    setShoppingLists(shoppingLists.map(list => (list.id === updatedList.id ? updatedList : list)));
+  const updateShoppingList = async (updatedList: ShoppingList) => {
+    const updatedShoppingLists = shoppingLists.map(list =>
+      list.id === updatedList.id ? updatedList : list
+    );
+    setShoppingLists(updatedShoppingLists);
+    await saveShoppingLists(updatedShoppingLists);
   };
   // Функция для сортировки списков
   const sortLists = () => {
@@ -65,8 +111,20 @@ export const HomeScreen = ({navigation }) => {
 
   return (
     <View style={styles.container}>
-      
       {/* Поле для поиска */}
+      <Button title="Показать сохраненные данные" onPress={async () => {
+  try {
+    const storedData = await AsyncStorage.getItem('@shopping_lists');
+    if (storedData) {
+      Alert.alert('Сохраненные данные', storedData);
+    } else {
+      Alert.alert('Сохраненные данные', 'Нет данных в хранилище');
+    }
+  } catch (e) {
+    Alert.alert('Ошибка', 'Не удалось загрузить данные');
+  }
+}} />
+
       <TextInput
         style={styles.searchInput}
         placeholder="Search lists..."
@@ -109,7 +167,7 @@ export const HomeScreen = ({navigation }) => {
       </View>
 
       {/* Список покупок */}
-      <FlatList
+     <FlatList
         data={filteredLists}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
@@ -125,7 +183,7 @@ export const HomeScreen = ({navigation }) => {
               }}
             >
               <Text style={styles.listTitle}>{item.name}</Text>
-              <Text style={styles.listDetails}>Total: ${item.total.toFixed(2)}</Text>
+              <Text style={styles.listDetails}>Total: ${item.total}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => showDeleteConfirmation(item.id)} style={styles.deleteButton}>
               <Text style={{ color: 'red' }}>Delete</Text>

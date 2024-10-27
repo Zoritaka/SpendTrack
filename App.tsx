@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from './screens/HomeScreen';
 import { ShoppingListDetailsScreen } from './screens/ShoppingListDetailsScreen';
+import { ExpenseAnalysisScreen } from './screens/ExpenseAnalysisScreen'; // Подключаем новый экран
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -18,7 +19,6 @@ function HomeStack() {
   );
 }
 
-
 export default function App() {
   return (
     <NavigationContainer>
@@ -26,7 +26,12 @@ export default function App() {
         <Tab.Screen 
           name="Shopping List" 
           component={HomeStack} 
-          options={{ headerShown: false }} // Скрыть заголовок
+          options={{ headerShown: false }} 
+        />
+        <Tab.Screen 
+          name="Expense Analysis" 
+          component={ExpenseAnalysisScreen} 
+          options={{ headerShown: true }} 
         />
       </Tab.Navigator>
     </NavigationContainer>
