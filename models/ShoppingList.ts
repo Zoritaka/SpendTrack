@@ -1,4 +1,3 @@
-// models/ShoppingList.ts
 import UUID from 'react-native-uuid';
 
 class ShoppingItem {
@@ -14,7 +13,6 @@ class ShoppingItem {
     this.price = price;
   }
 
-  // Метод для преобразования в простой объект
   toJSON() {
     return {
       name: this.name,
@@ -24,7 +22,6 @@ class ShoppingItem {
     };
   }
 
-  // Метод для восстановления объекта из JSON
   static fromJSON(data: any): ShoppingItem {
     return new ShoppingItem(data.name, data.description, data.category, data.price);
   }
@@ -55,7 +52,6 @@ class ShoppingList {
     return this.items.reduce((sum, item) => sum + item.price, 0);
   }
 
-  // Метод для сериализации ShoppingList в объект
   toJSON() {
     return {
       id: this.id,
@@ -65,7 +61,6 @@ class ShoppingList {
     };
   }
 
-  // Метод для восстановления списка покупок из JSON
   static fromJSON(data: any): ShoppingList {
     const list = new ShoppingList(data.name);
     list.id = data.id;

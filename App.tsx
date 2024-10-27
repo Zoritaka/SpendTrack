@@ -1,11 +1,10 @@
-// App.tsx
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from './screens/HomeScreen';
 import { ShoppingListDetailsScreen } from './screens/ShoppingListDetailsScreen';
-import { ExpenseAnalysisScreen } from './screens/ExpenseAnalysisScreen'; // Подключаем новый экран
+import { ExpenseAnalysisScreen } from './screens/ExpenseAnalysisScreen'; 
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

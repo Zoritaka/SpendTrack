@@ -1,6 +1,5 @@
-// ShoppingListDetailsScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Modal } from 'react-native';
 import { ShoppingList, ShoppingItem } from '../models/ShoppingList';
 import { Alert } from 'react-native';
 import { styles } from '../styles/ShoppingListDetailsStyles'; // Импорт стилей

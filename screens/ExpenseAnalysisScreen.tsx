@@ -1,8 +1,8 @@
-// ExpenseAnalysisScreen.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Dimensions, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ShoppingList, ShoppingItem } from '../models/ShoppingList';
+import { styles } from '../styles/ExpenseAnalysisStyles';
 
 export const ExpenseAnalysisScreen = () => {
   const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([]);
@@ -24,7 +24,6 @@ export const ExpenseAnalysisScreen = () => {
     }
   }, [shoppingLists]);
 
-  // Загружаем список покупок из AsyncStorage
   const loadShoppingLists = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('@shopping_lists');
@@ -125,23 +124,3 @@ export const ExpenseAnalysisScreen = () => {
   );
 };
 
-// Стили
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  block: {
-    backgroundColor: '#f9f9f9',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 10 },
-  amount: { fontSize: 18, color: '#333' },
-  categoryRow: { flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 },
-  categoryText: { fontSize: 16, color: '#555' },
-  detailText: { fontSize: 16, color: '#666' },
-});

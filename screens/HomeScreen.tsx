@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, Modal, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, Modal, Button } from 'react-native';
 import { ShoppingList } from '../models/ShoppingList';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from '../styles/MainScreenStyles'; // Импорт стилей
+import { styles } from '../styles/MainScreenStyles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
@@ -111,20 +111,22 @@ export const HomeScreen = ({navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Поле для поиска */}
-      <Button title="Показать сохраненные данные" onPress={async () => {
-  try {
-    const storedData = await AsyncStorage.getItem('@shopping_lists');
-    if (storedData) {
-      Alert.alert('Сохраненные данные', storedData);
-    } else {
-      Alert.alert('Сохраненные данные', 'Нет данных в хранилище');
-    }
-  } catch (e) {
-    Alert.alert('Ошибка', 'Не удалось загрузить данные');
-  }
-}} />
+      {/* Кнопка для проверки локальных данных */}
+      {/*<Button title="Показать сохраненные данные" onPress={async () => {
+      try {
+        const storedData = await AsyncStorage.getItem('@shopping_lists');
+        if (storedData) {
+          Alert.alert('Сохраненные данные', storedData);
+        } else {
+          Alert.alert('Сохраненные данные', 'Нет данных в хранилище');
+        }
+      } catch (e) {
+        Alert.alert('Ошибка', 'Не удалось загрузить данные');
+      }
+      }} />
+      */}
 
+      {/* поле поиска */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search lists..."
@@ -138,7 +140,7 @@ export const HomeScreen = ({navigation }) => {
       {/* Модальное окно для создания нового списка */}
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Create New Shopping List</Text>
+          <Text>Create New Shopping List</Text>
           <TextInput
             style={styles.modalInput}
             placeholder="List Name"
@@ -191,7 +193,7 @@ export const HomeScreen = ({navigation }) => {
           </View>
         )}
       />
-
+      {/* модельное окно удаления списка */}
       <Modal visible={isDeleteConfirmVisible} transparent={true} animationType="fade">
         <View style={styles.confirmContainer}>
           <Text style={styles.confirmText}>Удалить список?</Text>
