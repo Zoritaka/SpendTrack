@@ -110,18 +110,19 @@ export const HomeScreen = ({navigation }) => {
 
       {/* Список покупок */}
       <FlatList
-        data={shoppingLists}
+        data={filteredLists}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.listItem}>
             <TouchableOpacity
               style={styles.listContent}
-              onPress={() =>
+              onPress={() => {
+                console.log('Navigating to ShoppingListDetails with:', item);
                 navigation.navigate('ShoppingListDetails', {
                   shoppingList: item,
                   onUpdateList: updateShoppingList,
-                })
-              }
+                });
+              }}
             >
               <Text style={styles.listTitle}>{item.name}</Text>
               <Text style={styles.listDetails}>Total: ${item.total.toFixed(2)}</Text>
