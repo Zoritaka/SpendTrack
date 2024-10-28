@@ -128,7 +128,7 @@ export const HomeScreen = ({navigation }) => {
       {/* поле поиска */}
       <TextInput
         style={styles.searchInput}
-        placeholder="Поиск списков..."
+        placeholder="Search lists..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />

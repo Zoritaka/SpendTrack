@@ -50,7 +50,7 @@ export const ShoppingListDetailsScreen: React.FC<ShoppingListDetailsScreenProps>
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{shoppingList.name}</Text>
-        <Text>Total: ${shoppingList.total.toFixed(2)}</Text>
+        <Text>Итоговая сумма: {shoppingList.total.toFixed(2)}₸</Text>
         <Button title="Добавить" onPress={() => setModalVisible(true)} />
       </View>
 

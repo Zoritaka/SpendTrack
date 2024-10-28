@@ -24,6 +24,7 @@ export const ExpenseAnalysisScreen = () => {
     }
   }, [shoppingLists]);
 
+  // загружает данные о списках покупок из AsyncStorage.
   const loadShoppingLists = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('@shopping_lists');
