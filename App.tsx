@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ShoppingList" component={HomeScreen} />
+      <Stack.Screen name="Список покупок" component={HomeScreen} />
       <Stack.Screen name="ShoppingListDetails" component={ShoppingListDetailsScreen} />
     </Stack.Navigator>
   );
@@ -23,12 +23,12 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen 
-          name="Shopping List" 
+          name="Список покупок" 
           component={HomeStack} 
           options={{ headerShown: false }} 
         />
         <Tab.Screen 
-          name="Expense Analysis" 
+          name="Анализ расходов" 
           component={ExpenseAnalysisScreen} 
           options={{ headerShown: true }} 
         />

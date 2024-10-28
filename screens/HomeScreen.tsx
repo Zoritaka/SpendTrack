@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, Modal, Button } from 'react-native';
 import { ShoppingList } from '../models/ShoppingList';
-import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/MainScreenStyles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
@@ -129,42 +128,42 @@ export const HomeScreen = ({navigation }) => {
       {/* поле поиска */}
       <TextInput
         style={styles.searchInput}
-        placeholder="Search lists..."
+        placeholder="Поиск списков..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
 
       {/* Кнопка для добавления нового списка */}
-      <Button title="Add New List" onPress={() => setModalVisible(true)} />
+      <Button title="Добавить новый список" onPress={() => setModalVisible(true)} />
 
       {/* Модальное окно для создания нового списка */}
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
-          <Text>Create New Shopping List</Text>
+          <Text style={styles.textAdd}>Введите название списка</Text>
           <TextInput
             style={styles.modalInput}
-            placeholder="List Name"
+            placeholder="Название"
             value={newListName}
             onChangeText={setNewListName}
           />
-          <Button title="Create List" onPress={addNewShoppingList} />
-          <Button title="Cancel" onPress={() => setModalVisible(false)} color="red" />
+          <Button title="Создать" onPress={addNewShoppingList} />
+          <Button title="Отмена" onPress={() => setModalVisible(false)} color="red" />
         </View>
       </Modal>
 
       {/* Сортировка списков */}
       <View style={styles.sortOptions}>
         <TouchableOpacity onPress={() => setSortOption('asc')}>
-          <Text style={styles.sortText}>Sort by Asc</Text>
+          <Text style={styles.sortText}>по возрастанию</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setSortOption('desc')}>
-          <Text style={styles.sortText}>Sort by Desc</Text>
+          <Text style={styles.sortText}>по убыванию</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setSortOption('alpha')}>
-          <Text style={styles.sortText}>Sort by A-Z</Text>
+          <Text style={styles.sortText}>от A-Z</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setSortOption('date')}>
-          <Text style={styles.sortText}>Sort by Date</Text>
+          <Text style={styles.sortText}>по дате</Text>
         </TouchableOpacity>
       </View>
 
@@ -185,10 +184,10 @@ export const HomeScreen = ({navigation }) => {
               }}
             >
               <Text style={styles.listTitle}>{item.name}</Text>
-              <Text style={styles.listDetails}>Total: ${item.total}</Text>
+              <Text style={styles.listDetails}>Сумма: {item.total}₸</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => showDeleteConfirmation(item.id)} style={styles.deleteButton}>
-              <Text style={{ color: 'red' }}>Delete</Text>
+              <Text style={{ color: 'red' }}>Удалить</Text>
             </TouchableOpacity>
           </View>
         )}

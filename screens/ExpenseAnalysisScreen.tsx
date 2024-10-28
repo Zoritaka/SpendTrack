@@ -87,7 +87,7 @@ export const ExpenseAnalysisScreen = () => {
       {/* Общие затраты за месяц */}
       <View style={styles.block}>
         <Text style={styles.title}>Общие затраты за месяц</Text>
-        <Text style={styles.amount}>${monthlyExpense.toFixed(2)}</Text>
+        <Text style={styles.amount}>{monthlyExpense.toFixed(2)}₸</Text>
       </View>
 
       {/* Анализ трат по категориям */}
@@ -96,7 +96,7 @@ export const ExpenseAnalysisScreen = () => {
         {Object.entries(categoryExpense).map(([category, total]) => (
           <View key={category} style={styles.categoryRow}>
             <Text style={styles.categoryText}>{category}</Text>
-            <Text style={styles.amount}>${total.toFixed(2)}</Text>
+            <Text style={styles.amount}>{total.toFixed(2)}₸</Text>
           </View>
         ))}
       </View>
@@ -108,7 +108,7 @@ export const ExpenseAnalysisScreen = () => {
           <>
             <Text style={styles.detailText}>Товар: {mostExpensiveItem.name}</Text>
             <Text style={styles.detailText}>Категория: {mostExpensiveItem.category}</Text>
-            <Text style={styles.amount}>${mostExpensiveItem.price.toFixed(2)}</Text>
+            <Text style={styles.amount}>{mostExpensiveItem.price.toFixed(2)}₸</Text>
           </>
         ) : (
           <Text style={styles.detailText}>Нет покупок</Text>
